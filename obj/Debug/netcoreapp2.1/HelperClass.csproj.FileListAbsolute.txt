@@ -1,0 +1,11 @@
+C:\Users\ed boy\Desktop\Projects\HelperClass\bin\Debug\netcoreapp2.1\HelperClass.deps.json
+C:\Users\ed boy\Desktop\Projects\HelperClass\bin\Debug\netcoreapp2.1\HelperClass.runtimeconfig.json
+C:\Users\ed boy\Desktop\Projects\HelperClass\bin\Debug\netcoreapp2.1\HelperClass.runtimeconfig.dev.json
+C:\Users\ed boy\Desktop\Projects\HelperClass\bin\Debug\netcoreapp2.1\HelperClass.dll
+C:\Users\ed boy\Desktop\Projects\HelperClass\bin\Debug\netcoreapp2.1\HelperClass.pdb
+C:\Users\ed boy\Desktop\Projects\HelperClass\obj\Debug\netcoreapp2.1\HelperClass.csprojAssemblyReference.cache
+C:\Users\ed boy\Desktop\Projects\HelperClass\obj\Debug\netcoreapp2.1\HelperClass.csproj.CoreCompileInputs.cache
+C:\Users\ed boy\Desktop\Projects\HelperClass\obj\Debug\netcoreapp2.1\HelperClass.AssemblyInfoInputs.cache
+C:\Users\ed boy\Desktop\Projects\HelperClass\obj\Debug\netcoreapp2.1\HelperClass.AssemblyInfo.cs
+C:\Users\ed boy\Desktop\Projects\HelperClass\obj\Debug\netcoreapp2.1\HelperClass.dll
+C:\Users\ed boy\Desktop\Projects\HelperClass\obj\Debug\netcoreapp2.1\HelperClass.pdb
