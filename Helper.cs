@@ -1,4 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
 using System.Text;
 
 public static class Helper
@@ -20,7 +24,7 @@ public static class Helper
     /// <param name="bytes"></param>
     /// <param name="Encoding"></param>
     /// <returns>string</returns>
-    public static string ToString(this byte[] bytes, string encoding)
+    public static string ToString(this byte[] bytes, string encoding = null)
     {
         if (encoding!=null)
         switch (encoding.ToUpper())
@@ -69,7 +73,7 @@ public static class Helper
     }
 
 
-    public static byte[] ToBytes(this string str, string encoding)
+    public static byte[] ToByteArray(this string str, string encoding)
     {
         if (encoding!=null)
         switch (encoding.ToUpper())
@@ -105,6 +109,112 @@ public static class Helper
         {
             return System.Text.Encoding.Default.GetBytes(str);
         }       
+    }
+
+    public static byte[] ToByteArray(this object obj)
+    {
+        if (obj is byte[])
+        {
+            return obj as byte[];
+        }
+        else if (obj is IList<byte>)
+        {
+            IList<byte> bytes = obj as IList<byte>;
+            byte[] outBytes = new byte[bytes.Count];
+
+            for (int i = 0; i < bytes.Count; i++)
+            {
+                outBytes[i]  = bytes[i];
+            }
+            return outBytes;
+        }
+        else
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                formatter.Serialize(ms, obj);
+                return ms.ToArray();
+            }
+        }
+    }
+
+    public static Stream ToStream(this object obj)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        using (MemoryStream ms = new MemoryStream())
+        {
+            formatter.Serialize(ms, obj);
+            return ms;
+        }
+    }
+
+    public static byte[] GetHashBytes(this object obj,HashAlgorithms algoName)
+    {
+
+        HashAlgorithm algo;
+        switch (algoName)
+        {
+            case HashAlgorithms.SHA512:
+                algo = new SHA512Managed();
+                break;
+            case HashAlgorithms.SHA256:
+                algo = new SHA256Managed();
+                break;
+            case HashAlgorithms.SHA384:
+                algo = new SHA384Managed();
+                break;
+            default :
+                algo = new SHA512Managed();
+                break;
+        
+        }
+        byte[] hashBytes;
+
+        if (obj is byte[])
+        {
+            hashBytes = obj as byte[];
+        }
+        else
+        {
+            byte[] bytes = obj.ToByteArray();
+            hashBytes = algo.ComputeHash(bytes);
+        }
+        return hashBytes;
+    }
+
+    public enum HashAlgorithms{
+        SHA512,
+        SHA256,
+        SHA384
+    }
+
+    public static byte[] GetHashBytes(this object obj, HashAlgorithms algoName, int saltLength)
+    {
+        byte[] hashBytes = obj.GetHashBytes(algoName);
+
+        byte[] salt = new byte[saltLength];
+
+        RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+
+        rng.GetBytes(salt);
+
+        byte[] hashAndSalt = new byte[hashBytes.Length + salt.Length];
+
+        for (int i =0; i<hashAndSalt.Length; i++)
+        {
+            if (i<hashBytes.Length)
+            {
+                hashAndSalt[i] = hashBytes[i];
+            }
+            else
+            {
+                int saltIndex = i-hashBytes.Length;
+                hashAndSalt[i] = salt[saltIndex];
+            }
+        }
+
+        return hashAndSalt;
     }
 
 }

@@ -7,12 +7,9 @@ namespace HelperClass
         static void Main(string[] args)
         {
 
-            byte[] bytes = args[0].ToBytes("utf8");
+            byte[] bytes = args[0].ToByteArray();
 
-            for (int i = 0; i < bytes.Length; i++)
-            {
-                Console.Write($"{bytes[i]} ");
-            }
+            Console.WriteLine(bytes.GetHashBytes(Helper.HashAlgorithms.SHA256, 10).ToString("base64"));
 
         }
     }
